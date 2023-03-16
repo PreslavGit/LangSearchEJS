@@ -14,11 +14,11 @@ input{
 }
 
 .result{
-    width: 50%;
+    width: 30%;
+    color: white;
     margin: auto;
     margin-top: 15px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    border: solid 1px black;
 }
