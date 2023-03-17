@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add a new lang</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <form action="/add" method="post">
+        <label for="name">Name: </label>
+        <input type="text" name="name">
+        <br>
+        <label for="icon">Icon: </label>
+        <input type="url" name="icon">
+        <br>
+        <label for="popularity">Popularity: </label>
+        <select name="popularity">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br>
+        <label for="performance">Performance: </label>
+        <select name="performance">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <br>
+        <label for="keywords">Keywords: </label>
+        <input type="text" name="keywords">
+        <br>
+        <label for="paradigms">Paradigms: </label>
+        <input type="text" name="paradigms">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>
