@@ -12,10 +12,6 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.static('public'))
 app.set('view engine', 'ejs')
 
-app.get('/', async (req: Request, res: Response) => {
-    let langsData = await getLangData()   
-    res.render('./pages/home', {langs: langsData})
-})
 
 app.use('/add', addRouter)
 
@@ -23,6 +19,11 @@ app.get('/:lang', async (req: Request, res: Response) => {
     let data = await getFullLangData(req.params.lang)
     
     res.send(data)
+})
+
+app.get('/', async (req: Request, res: Response) => {
+    let langsData = await getLangData()   
+    res.render('./pages/home', {langs: langsData})
 })
 
 
