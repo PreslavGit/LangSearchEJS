@@ -1,5 +1,6 @@
 body{
     background-color: steelblue;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 .search{
@@ -14,6 +15,9 @@ body{
 }
 
 .result{
+    border: solid 1px rgb(43, 78, 107);
+    border-radius: 5px;
+    padding: 10px 30px;
     width: 30%;
     color: white;
     margin: auto;
@@ -21,4 +25,9 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    text-decoration: none;
+}
+
+.result:hover{
+    background-color: rgb(32, 76, 112);
 }
