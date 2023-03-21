@@ -7,42 +7,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add a new lang</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="add.css">
 </head>
 
 <body>
-    <form action="/add" method="post">
-        <label for="name">Name: </label>
-        <input type="text" name="name">
-        <br>
-        <label for="icon">Icon: </label>
-        <input type="url" name="icon" minlength="10">
-        <br>
-        <label for="popularity">Popularity: </label>
-        <select name="popularity">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <br>
-        <label for="performance">Performance: </label>
-        <select name="performance">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-        </select>
-        <br>
-        <label for="keywords">Keywords: </label>
-        <input type="text" name="keywords">
-        <br>
-        <label for="paradigms">Paradigms: </label>
-        <input type="text" name="paradigms">
-        <br>
-        <button type="submit">Submit</button>
-    </form>
+    <div class="form-container">
+        <h1>Add a new language</h1>
+        <form action="/add" method="post">
+            <table>
+                <tr>
+                    <td>
+                        <label for="name">Name: </label>
+                    </td>
+                    <td>
+                        <input type="text" name="name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="icon">Icon: </label>
+                    </td>
+                    <td>
+                        <input type="url" name="icon" minlength="10">
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="popularity">Popularity: </label></td>
+                    <td><select name="popularity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><label for="performance">Performance: </label></td>
+                    <td><select name="performance">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><label for="keywords">Keywords: </label></td>
+                    <td><textarea type="text" name="keywords" cols="41"></textarea></td>
+                </tr>
+                <tr>
+                    <td><label for="paradigms">Paradigms: </label></td>
+                    <td><textarea type="text" name="paradigms" cols="41"></textarea></td>
+                </tr>
+            </table>
+                <button type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 
 </html>
