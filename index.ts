@@ -15,7 +15,7 @@ app.set('view engine', 'ejs')
 
 app.use('/add', addRouter)
 
-app.get('/:lang', async (req: Request, res: Response) => {
+app.get('/langs/:lang', async (req: Request, res: Response) => {
     let data = await getFullLangData(req.params.lang)
     
     res.send(data)
