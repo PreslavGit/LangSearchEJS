@@ -17,8 +17,11 @@ app.use('/add', addRouter)
 
 app.get('/langs/:lang', async (req: Request, res: Response) => {
     let data = await getFullLangData(req.params.lang)
-    
-    res.send(data)
+    if(typeof data == typeof ""){
+        res.send("Language not found")
+    }else{
+        res.render('./pages/lang', {data: data[0]})
+    }
 })
 
 app.get('/', async (req: Request, res: Response) => {
