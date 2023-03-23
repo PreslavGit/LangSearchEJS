@@ -10,14 +10,33 @@
 </head>
 
 <body>
-    <div class="search" >
-        <input type="text" id="main-search">
+    <script>
+        function search() {
+            let searchVal = document.getElementById("main-search").value;
+            let results= document.getElementsByClassName("result");
+            
+            for (const result of results) {
+                if(getLangName(result).toLowerCase().includes(searchVal.toLowerCase())){
+                    result.style.display = "flex";
+                }else{
+                    result.style.display = "none";                    
+                }
+            }
+        }
+
+        function getLangName(result){
+            return result.querySelector(".lang-name").innerText
+        }
+        
+    </script>
+    <div class="search">
+        <input type="text" id="main-search" onkeyup="search()">
     </div>
 
     <% for (let i = 0; i < langs.length; i++) { %>
     <a class="result" href="/langs/<%=langs[i].lang%>" target="_blank">
         <img src=<%= langs[i].icon %> width="80px">
-        <h1><%= langs[i].lang %></h1>
+        <h1 class="lang-name"><%= langs[i].lang %></h1>
         <div>
             <h5>Popularity: <%= langs[i].popularity %> </h5>
             <h5>Performance: <%= langs[i].performance %> </h5>
