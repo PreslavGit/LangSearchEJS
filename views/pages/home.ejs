@@ -10,27 +10,44 @@
 </head>
 
 <body>
-    <script>
-        function search() {
-            let searchVal = document.getElementById("main-search").value;
-            let results= document.getElementsByClassName("result");
-            
-            for (const result of results) {
-                if(getLangName(result).toLowerCase().includes(searchVal.toLowerCase())){
-                    result.style.display = "flex";
-                }else{
-                    result.style.display = "none";                    
-                }
-            }
-        }
-
-        function getLangName(result){
-            return result.querySelector(".lang-name").innerText
-        }
-        
-    </script>
     <div class="search">
-        <input type="text" id="main-search" onkeyup="search()">
+        <form action="/" method="get">
+            <div class="search-container">
+                <div class="search-left">
+                    <label for="lang">Language: </label>
+                    <input type="text" name="lang" id="main-search">
+                    <div class="search-left-select">
+                        <label for="popularity">Popularity: </label>
+                        <select name="popularity">
+                            <option value="0">Any</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <br>
+                        <label for="performance">Performance: </label>
+                        <select name="performance">
+                            <option value="0">Any</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-right">
+                    <label for="paradigms">Paradigms: </label>
+                    <input type="text" name="paradigms">
+                    <br>
+                    <label for="keywords">Keywords: </label>
+                    <input type="text" name="keywords">
+                </div>
+            </div>
+            <button type="submit">Search</button>
+        </form>
     </div>
 
     <% for (let i = 0; i < langs.length; i++) { %>

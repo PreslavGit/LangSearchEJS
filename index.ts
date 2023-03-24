@@ -25,10 +25,16 @@ app.get('/langs/:lang', async (req: Request, res: Response) => {
 })
 
 app.get('/', async (req: Request, res: Response) => {
-    let langsData = await getLangData()   
-    res.render('./pages/home', {langs: langsData})
-})
+    let query = req.query;
 
+    if(Object.keys(query).length === 0){
+        let langsData = await getLangData()   
+        res.render('./pages/home', {langs: langsData})
+    }else{
+        res.send(query);
+    }
+
+})
 
 const port = process.env.PORT;
 

@@ -20,17 +20,3 @@ form{
 table{
     text-align: left;
 }
-
-button{
-    font-size: 24px;
-    color: white;
-    background-color: rgb(17, 69, 112);
-    border: solid 1px rgb(19, 37, 51);
-    border-radius: 5px;
-    padding: 10px 15px;
-    cursor: pointer;
-}
-
-button:hover{
-    background-color: rgb(26, 96, 153);
-}
