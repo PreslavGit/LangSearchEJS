@@ -158,7 +158,7 @@ export async function getFilteredLangs(filter: langFilter){
     let [query, values] = queryBuilder(filter); 
     let data;
     try{
-        [data] = await pool.query(query, values);        
+        [data] = await pool.query(query, values); 
     }catch(err){
         console.log(err);
     }
@@ -167,8 +167,22 @@ export async function getFilteredLangs(filter: langFilter){
 }
 
 function queryBuilder(filter: langFilter){
-    let query = "SELECT * FROM langs WHERE lang LIKE ? ";
+    let query = "SELECT * FROM langs l ";
     let values: any = ["%" + filter.lang + "%"]
+
+    let paraStr = filter.paradigms.join("|")
+    let keywordStr = filter.keywords.join("|")
+
+    if(filter.paradigms[0] !== ''){
+        query += "LEFT JOIN langparadigms lp ON l.id = lp.langID LEFT JOIN paradigms p ON lp.paradigmID = p.id "
+    }
+
+    if(filter.keywords[0] !== ''){
+        query += "LEFT JOIN langtags lt ON l.id = lt.langID LEFT JOIN tags t ON lt.tagID = t.id "
+    }
+
+    query += "WHERE lang LIKE ? ";
+
     if(filter.popularity != 0){
         query += "AND popularity = ? "
         values.push(filter.popularity)
@@ -177,6 +191,18 @@ function queryBuilder(filter: langFilter){
         query += "AND performance = ? "
         values.push(filter.performance)
     }
+
+    if(filter.paradigms[0] !== ''){
+        query += "AND paradigm regexp ? "
+        values.push(paraStr)
+    }
+
+    if(filter.keywords[0] !== ''){
+        query += "AND tag regexp ? "
+        values.push(keywordStr)
+    } 
+
+    query += "GROUP BY l.lang"
     
     return [query, values];
 }
