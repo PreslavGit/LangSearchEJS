@@ -147,3 +147,41 @@ export async function getFullLangData(lang: string) {
     return data;
 }
 
+export type langFilter = {
+    lang: string
+    popularity: number
+    performance: number
+    paradigms: string[]
+    keywords: string[]
+}
+export async function getFilteredLangs(filter: langFilter){
+    let [query, values] = queryBuilder(filter); 
+    let data;
+    try{
+        [data] = await pool.query(query, values);        
+    }catch(err){
+        console.log(err);
+    }
+
+    return data;
+}
+
+function queryBuilder(filter: langFilter){
+    let query = "SELECT * FROM langs WHERE lang LIKE ? ";
+    let values: any = ["%" + filter.lang + "%"]
+    if(filter.popularity != 0){
+        query += "AND popularity = ? "
+        values.push(filter.popularity)
+    }
+    if(filter.performance != 0){
+        query += "AND performance = ? "
+        values.push(filter.performance)
+    }
+    
+    return [query, values];
+}
+
+
+
+
+

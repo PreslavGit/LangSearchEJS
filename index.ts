@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {getLangData, getLangParadigms, getFullLangData} from './db/queries'
+import {getLangData, getFullLangData, getFilteredLangs, langFilter} from './db/queries'
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -25,13 +25,19 @@ app.get('/langs/:lang', async (req: Request, res: Response) => {
 })
 
 app.get('/', async (req: Request, res: Response) => {
-    let query = req.query;
+    let query: any = req.query;
 
     if(Object.keys(query).length === 0){
         let langsData = await getLangData()   
         res.render('./pages/home', {langs: langsData})
     }else{
-        res.send(query);
+        query.popularity = Number.parseInt(query.popularity);
+        query.performance = Number.parseInt(query.performance);
+        query.paradigms = query.paradigms.split(",").map((word: string) => word.replace(' ', ''));
+        query.keywords = query.keywords.split(",").map((word: string) => word.replace(' ', ''));
+        let filter: langFilter = query;
+        let langsData = await getFilteredLangs(filter);
+        res.render('./pages/home', {langs: langsData});
     }
 
 })
