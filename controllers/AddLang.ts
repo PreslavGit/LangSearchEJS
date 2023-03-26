@@ -18,22 +18,26 @@ router.post('/', async ({ body: { name, icon, popularity, performance, keywords,
 
     const LangData: langFull = { name, icon, popularity, performance, keywords, paradigms };
 
-    await insertLang(LangData)
-
-    //add paradigms
-    for (const paradigm of LangData.paradigms) {
-        await insertParadigm(paradigm);
-        await connectParadigm(name, paradigm)
-    }
-
-    //add keywords
-    for (const keyword of LangData.keywords) {
-        await insertKeyword(keyword);
-        await connectKeyword(name, keyword)
-    }
+    await addLang(LangData)
 
     res.render('./pages/add')
 })
+
+async function addLang(langData: langFull){
+    await insertLang(langData)
+
+    //add paradigms
+    for (const paradigm of langData.paradigms) {
+        await insertParadigm(paradigm);
+        await connectParadigm(langData.name, paradigm)
+    }
+
+    //add keywords
+    for (const keyword of langData.keywords) {
+        await insertKeyword(keyword);
+        await connectKeyword(langData.name, keyword)
+    }
+}
 
 
 module.exports = router
