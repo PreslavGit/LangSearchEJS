@@ -1,14 +1,6 @@
 const pool = require('./pool')
-import { LangData } from "../controllers/AddLang"
-
-type lang = {
-    id: number,
-    langName: string,
-    icon: string,
-    popularity: number,
-    performance: number
-}
-
+import { langFull } from "../types/lang"
+import { lang }  from "../types/lang"
 
 export async function getLangData(): Promise<lang[]> {
     let data: lang[] = []
@@ -47,7 +39,7 @@ export async function getLangParadigms(lang: string): Promise<String[] | null> {
     return paradigms.map((d: any) => d.paradigm)
 }
 
-export async function insertLang(data: LangData) {
+export async function insertLang(data: langFull) {
     try {
         if (await getLangID(data.name) !== null) { throw "Language already in database" }
         await pool.query("INSERT INTO langs (lang, icon, popularity, performance) VALUES (?, ?, ?, ?) ", [data.name, data.icon, data.popularity, data.performance])
@@ -55,6 +47,28 @@ export async function insertLang(data: LangData) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function getFullLangData(lang: string) {
+    let query = `SELECT l.lang, l.popularity, l.performance,  GROUP_CONCAT(DISTINCT p.paradigm ORDER BY p.paradigm SEPARATOR ', ') AS paradigms, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag SEPARATOR ', ') AS tags
+                FROM langs l
+                LEFT JOIN langparadigms lp ON l.id = lp.langID
+                LEFT JOIN paradigms p ON lp.paradigmID = p.id
+                LEFT JOIN langtags lt ON l.id = lt.langID
+                LEFT JOIN tags t ON lt.tagID = t.id
+                WHERE l.lang = ?
+                GROUP BY l.lang;`
+    let data;
+    try {
+        let id = await getLangID(lang);
+        if(id === null){throw "Language not found"}
+        [data] = await pool.query(query, [lang])
+    } catch (err) {
+        console.log(err);
+        return "Language not found"
+    }
+
+    return data as langFull[];
 }
 
 

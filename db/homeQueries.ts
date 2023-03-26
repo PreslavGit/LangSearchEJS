@@ -1,40 +1,11 @@
 const pool = require('./pool')
-import { getLangID } from "./langQueries"
+import { langFull } from "../types/lang";
 
-export async function getFullLangData(lang: string) {
-    let query = `SELECT l.lang, l.popularity, l.performance,  GROUP_CONCAT(DISTINCT p.paradigm ORDER BY p.paradigm SEPARATOR ', ') AS paradigms, GROUP_CONCAT(DISTINCT t.tag ORDER BY t.tag SEPARATOR ', ') AS tags
-                FROM langs l
-                LEFT JOIN langparadigms lp ON l.id = lp.langID
-                LEFT JOIN paradigms p ON lp.paradigmID = p.id
-                LEFT JOIN langtags lt ON l.id = lt.langID
-                LEFT JOIN tags t ON lt.tagID = t.id
-                WHERE l.lang = ?
-                GROUP BY l.lang;`
-    let data;
-    try {
-        let id = await getLangID(lang);
-        if(id === null){throw "Language not found"}
-        [data] = await pool.query(query, [lang])
-    } catch (err) {
-        console.log(err);
-        return "Language not found"
-    }
-
-    return data;
-}
-
-export type langFilter = {
-    lang: string
-    popularity: number
-    performance: number
-    paradigms: string[]
-    keywords: string[]
-}
-export async function getFilteredLangs(filter: langFilter){
+export async function getFilteredLangs(filter: langFull){
     let [query, values] = queryBuilder(filter); 
     let data;
     try{
-        [data] = await pool.query(query, values); 
+        [data] = await pool.query(query, values);    
     }catch(err){
         console.log(err);
     }
@@ -42,9 +13,9 @@ export async function getFilteredLangs(filter: langFilter){
     return data;
 }
 
-function queryBuilder(filter: langFilter){
+function queryBuilder(filter: langFull){
     let query = "SELECT * FROM langs l ";
-    let values: any = ["%" + filter.lang + "%"]
+    let values: any = ["%" + filter.name + "%"]
 
     let paraStr = filter.paradigms.join("|")
     let keywordStr = filter.keywords.join("|")

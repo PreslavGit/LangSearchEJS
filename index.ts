@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { getFullLangData, getFilteredLangs, langFilter } from './db/homeQueries'
-import { getLangData } from "./db/langQueries";
+import { getFilteredLangs } from './db/homeQueries'
+import { getLangData, getFullLangData } from "./db/langQueries";
+import { langFull } from "./types/lang";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,7 +19,7 @@ app.use('/add', addRouter)
 
 app.get('/langs/:lang', async (req: Request, res: Response) => {
     let data = await getFullLangData(req.params.lang)
-    if (typeof data == typeof "") {
+    if (typeof data == "string") {
         res.send("Language not found")
     } else {
         res.render('./pages/lang', { data: data[0] })
@@ -36,7 +37,7 @@ app.get('/', async (req: Request, res: Response) => {
         query.performance = parseInt(query.performance);
         query.paradigms = query.paradigms.split(",").map((word: string) => word.trim());
         query.keywords = query.keywords.split(",").map((word: string) => word.trim());
-        let filter: langFilter = query;
+        let filter: langFull = query;
         let langsData = await getFilteredLangs(filter);
         res.render('./pages/home', { langs: langsData });
     }

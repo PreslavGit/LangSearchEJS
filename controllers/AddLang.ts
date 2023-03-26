@@ -2,20 +2,12 @@ import { Request, Response } from "express";
 import { insertLang } from "../db/langQueries";
 import { connectParadigm, insertParadigm } from "../db/paradigmQueries";
 import { insertKeyword, connectKeyword } from "../db/keywordQueries";
+import { langFull } from "../types/lang";
 const router = require('express').Router()
 
 router.get('/', (req: Request, res: Response) => {
     res.render('./pages/add')
 })
-
-export type LangData = {
-    name: string
-    icon: string
-    popularity: number
-    performance: number
-    keywords: string[]
-    paradigms: string[]
-}
 
 router.post('/', async ({ body: { name, icon, popularity, performance, keywords, paradigms } }: any, res: Response) => {
 
@@ -24,7 +16,7 @@ router.post('/', async ({ body: { name, icon, popularity, performance, keywords,
     keywords = keywords.split(",").map((word: string) => word.trim());
     paradigms = paradigms.split(",").map((word: string) => word.trim());
 
-    const LangData: LangData = { name, icon, popularity, performance, keywords, paradigms };
+    const LangData: langFull = { name, icon, popularity, performance, keywords, paradigms };
 
     await insertLang(LangData)
 
