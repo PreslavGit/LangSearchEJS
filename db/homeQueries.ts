@@ -1,5 +1,5 @@
 const pool = require('./pool')
-import { langFull } from "../types/lang";
+import { lang, langFull } from "../types/lang";
 
 export async function getFilteredLangs(filter: langFull){
     let [query, values] = queryBuilder(filter); 
@@ -10,7 +10,7 @@ export async function getFilteredLangs(filter: langFull){
         console.log(err);
     }
 
-    return data;
+    return data as lang[];
 }
 
 function queryBuilder(filter: langFull){

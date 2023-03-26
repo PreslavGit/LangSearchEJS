@@ -37,8 +37,10 @@ app.get('/', async (req: Request, res: Response) => {
         query.performance = parseInt(query.performance);
         query.paradigms = query.paradigms.split(",").map((word: string) => word.trim());
         query.keywords = query.keywords.split(",").map((word: string) => word.trim());
+
         let filter: langFull = query;
         let langsData = await getFilteredLangs(filter);
+        
         res.render('./pages/home', { langs: langsData });
     }
 
