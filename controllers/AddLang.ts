@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { insertLang, insertParadigm, connectParadigm, insertKeyword, connectKeyword } from "../db/queries";
+import { insertLang } from "../db/langQueries";
+import { connectParadigm, insertParadigm } from "../db/paradigmQueries";
+import { insertKeyword, connectKeyword } from "../db/keywordQueries";
 const router = require('express').Router()
 
 router.get('/', (req: Request, res: Response) => {
@@ -17,11 +19,10 @@ export type LangData = {
 
 router.post('/', async ({ body: { name, icon, popularity, performance, keywords, paradigms } }: any, res: Response) => {
 
-    popularity = Number.parseInt(popularity);
-    performance = Number.parseInt(performance);
-    keywords = keywords.split(",").map((word: string) => word.replace(' ', ''));
-    paradigms = paradigms.split(",").map((word: string) => word.replace(' ', ''));
-    console.log(paradigms);
+    popularity = parseInt(popularity);
+    performance = parseInt(performance);
+    keywords = keywords.split(",").map((word: string) => word.trim());
+    paradigms = paradigms.split(",").map((word: string) => word.trim());
 
     const LangData: LangData = { name, icon, popularity, performance, keywords, paradigms };
 
