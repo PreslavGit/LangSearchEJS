@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, urlencoded } from "express";
 import { getFilteredLangs } from './db/homeQueries'
 import { getLangData, getFullLangData } from "./db/langQueries";
 import { langFull } from "./types/lang";

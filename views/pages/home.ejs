@@ -51,7 +51,7 @@
     </div>
 
     <% for (let i = 0; i < langs.length; i++) { %>
-    <a class="result" href="/langs/<%=langs[i].lang%>" target="_blank">
+    <a class="result" href="/langs/<%=encodeURIComponent(`${langs[i].lang}`)%>" target="_blank">
         <img src=<%= langs[i].icon %> width="80px">
         <h1 class="lang-name"><%= langs[i].lang %></h1>
         <div>
