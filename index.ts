@@ -1,7 +1,7 @@
 import { Request, Response, urlencoded } from "express";
 import { getFilteredLangs } from './db/homeQueries'
 import { getLangData, getFullLangData } from "./db/langQueries";
-import { langFull } from "./types/lang";
+import { langSearch } from "./types/lang";
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -27,18 +27,28 @@ app.get('/langs/:lang', async (req: Request, res: Response) => {
 })
 
 app.get('/', async (req: Request, res: Response) => {
-    let query: any = req.query;
-
-    if (Object.keys(query).length === 0) {
+    if (Object.keys(req.query).length === 0) {
         let langsData = await getLangData()
         res.render('./pages/home', { langs: langsData })
     } else {
-        query.popularity = parseInt(query.popularity);
-        query.performance = parseInt(query.performance);
-        query.paradigms = query.paradigms.split(",").map((word: string) => word.trim());
-        query.keywords = query.keywords.split(",").map((word: string) => word.trim());
+        type searchQuery = {
+            name: string
+            popularity: string
+            performance: string
+            paradigms: string
+            keywords: string
+        }
 
-        let filter: langFull = query;
+        let query = req.query as searchQuery;
+
+        let filter: langSearch = {
+            name: query.name,
+            popularity: parseInt(query.popularity),
+            performance: parseInt(query.performance),
+            paradigms: query.paradigms.split(",").map((word: string) => word.trim()),
+            keywords: query.keywords.split(",").map((word: string) => word.trim())
+        }
+
         let langsData = await getFilteredLangs(filter);
         
         res.render('./pages/home', { langs: langsData });

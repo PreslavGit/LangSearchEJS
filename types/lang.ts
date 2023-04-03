@@ -10,3 +10,5 @@ export type langFull = lang & {
     keywords: string[]
     paradigms: string[]
 }
+
+export type langSearch = Omit<langFull, "icon">;
